@@ -2,26 +2,40 @@ import React from "react";
 import ReactDOM from "react-dom";
 import bridge from "@vkontakte/vk-bridge";
 import App from "./App";
-//import * as firebase from 'firebase/app';
-import firebase from 'firebase/app';
-import 'firebase/analytics';
-import 'firebase/auth';
-import 'firebase/firestore';
 
-// firebase.initializeApp({
-//   apiKey: "AIzaSyAbvcOWlcKxgIOGMVdtNG8FvLsuPh3Pkz8",
-//   authDomain: "kanban-b2737.firebaseapp.com",
-//   projectId: "kanban-b2737",
-// });
+import { initializeApp } from 'firebase/app';
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
-//const process = require('process');
+// TODO: Replace the following with your app's Firebase project configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAbvcOWlcKxgIOGMVdtNG8FvLsuPh3Pkz8",
+  authDomain: "kanban-b2737.firebaseapp.com",
+  projectId: "kanban-b2737",
+  storageBucket: "kanban-b2737.appspot.com",
+  messagingSenderId: "613615665100",
+  appId: "1:613615665100:web:84eb9aac3f40f6fa196769",
+  measurementId: "G-RG0B4S5P7Q"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+const go = async () => {
+  const querySnapshot = await getDocs(collection(db, "desks"));
+  querySnapshot.forEach((doc) => {
+    console.log(doc.data());
+    console.log(`${doc.id} => ${doc.data()}`);
+  });
+};
+ 
+go();
+
 // Init VK  Mini App
 bridge.send("VKWebAppInit");
-// firebase.analytics();
-// console.log(firebase);
-
 
 ReactDOM.render(<App />, document.getElementById("root"));
-if (process.env.NODE_ENV === "development") {
-  import("./eruda").then(({ default: eruda }) => {}); //runtime download
-}
+// if (process.env.NODE_ENV === "development") {
+//   import("./eruda").then(({ default: eruda }) => {}); //runtime download
+// }
