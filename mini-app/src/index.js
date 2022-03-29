@@ -1,7 +1,9 @@
+import 'core-js/features/map';
+import 'core-js/features/set';
 import React from "react";
 import ReactDOM from "react-dom";
-import bridge from "@vkontakte/vk-bridge";
-import App from "./App";
+//import bridge from "@vkontakte/vk-bridge";
+import App from "./components/App";
 
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from "firebase/analytics";
@@ -22,20 +24,17 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-const go = async () => {
-  const querySnapshot = await getDocs(collection(db, "desks"));
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
-    console.log(`${doc.id} => ${doc.data()}`);
-  });
-};
+// const go = async () => {
+//   const querySnapshot = await getDocs(collection(db, "desks"));
+//   querySnapshot.forEach((doc) => {
+//     console.log(doc.id, doc.data());
+//     //console.log(`${doc.id} => ${doc.data()}`);
+//   });
+// };
  
-go();
+// go();
 
 // Init VK  Mini App
-bridge.send("VKWebAppInit");
+//bridge.send("VKWebAppInit");
 
 ReactDOM.render(<App />, document.getElementById("root"));
-// if (process.env.NODE_ENV === "development") {
-//   import("./eruda").then(({ default: eruda }) => {}); //runtime download
-// }
